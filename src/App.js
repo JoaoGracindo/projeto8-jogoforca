@@ -12,9 +12,41 @@ import forca6 from './assets/forca6.png';
 import palavras from './palavras';
 import alfabeto from './alfabeto';
 
-function App (){
-    return (
 
+
+export default function App (){
+    const [tentativas, setTentaticas] = useState(0);
+    const arrayPalavra = [];
+    const arrayImagens = [forca0, forca1, forca2, forca3, forca4, forca5, forca6]
+
+    function iniciaJogo(){
+        const numeroDePalavras = palavras.length + 1;
+        const palavraEscolhida = Math.round(Math.random()* numeroDePalavras);
+        
+        for(let i=0;i < palavraEscolhida.length; i++ ){
+            arrayPalavra.push(palavraEscolhida[i]);
+        }
+
+    }
+
+    function verifica(index){
+        const letraEscolhida = alfabeto[index];
+        const acertou = arrayPalavra.includes(letraEscolhida);
+
+    }
+
+
+    return (
+        <>
+
+            <img src={arrayImagens[tentativas]}/>
+
+            <Teclado>
+                {alfabeto.map( (letra, index) =>
+                    <div onClick={() => verifica(index)}>{letra}</div>
+                )}
+            </Teclado>
+        </>
     )
 }
 
@@ -22,7 +54,25 @@ function App (){
 
 const Teclado = styled.div`
     display: flex;
+    flex-wrap: wrap;
     justify-content:space-between;
     align-items: center;
+    height: 70px;
+    width: 450px;
+
     
+    div{   
+        height: 30px;
+        width: 30px;
+        font-size:20px;
+        background-color: gray;
+        color: black;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+
+
+    }
 `
+
+
