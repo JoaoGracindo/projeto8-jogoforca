@@ -25,7 +25,8 @@ export default function App (){
 
     function iniciarJogo(){
         if(!iniciado){
-            //setTentadas([])
+            setTentadas([]);
+            setTentativas(0);
             const numeroDePalavras = palavras.length + 1;
             const indiceEscolhida = Math.round(Math.random()* numeroDePalavras);
             const palavraEscolhida = palavras[indiceEscolhida];
@@ -42,14 +43,19 @@ export default function App (){
             const letraEscolhida = alfabeto[index];
 
             if(!tentadas.includes(letraEscolhida)){            
-                const acertou = arrayPalavra.includes(letraEscolhida);
+                let acertou = false;
+                for(let i=0; i < arrayPalavra.length; i++){
+                    if(arrayPalavra[i].localeCompare(letraEscolhida, 'pt', { sensitivity: 'base' }) === 0){
+                        acertou = true;
+                    }
+                }
                 const novoArr = [...tentadas, letraEscolhida]
                 setTentadas(novoArr);
 
                 if(acertou){
                     let contador = 1;
                     for(let i=0; i < arrayPalavra.length; i++){
-                        if(tentadas.includes(arrayPalavra[i])){
+                        if(arrayPalavra[i].localeCompare(letraEscolhida, 'pt', { sensitivity: 'base' }) === 0){
                             contador++;
                         }
                     }
@@ -81,7 +87,8 @@ export default function App (){
             setTentadas([...tentadas,...resposta])
             setIniciado(false)
         }else{
-            setTentativas(tentativas + 1);
+            setTentativas(6);
+            setIniciado(false);
         }
     }
 
