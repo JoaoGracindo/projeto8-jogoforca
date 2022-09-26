@@ -42,14 +42,17 @@ export default function App (){
         if(iniciado){
             const letraEscolhida = alfabeto[index];
 
-            if(!tentadas.includes(letraEscolhida)){            
+            if(!tentadas.includes(letraEscolhida)){
+
+                const novoArr = [...tentadas, letraEscolhida];            
                 let acertou = false;
                 for(let i=0; i < arrayPalavra.length; i++){
                     if(arrayPalavra[i].localeCompare(letraEscolhida, 'pt', { sensitivity: 'base' }) === 0){
                         acertou = true;
+                        novoArr.push(arrayPalavra[i])
                     }
                 }
-                const novoArr = [...tentadas, letraEscolhida]
+
                 setTentadas(novoArr);
 
                 if(acertou){
@@ -59,8 +62,7 @@ export default function App (){
                             contador++;
                         }
                     }
-                    console.log(contador)
-                    console.log(arrayPalavra.length)
+
                     if(contador === arrayPalavra.length){
                         setIniciado(false);
                     }
@@ -71,6 +73,7 @@ export default function App (){
                     setTentativas(numTentativas);
                     if(numTentativas === 6){
                         setIniciado(false)
+                        setTentadas([...tentadas,...arrayPalavra])
                     }
                 }
 
@@ -89,6 +92,7 @@ export default function App (){
         }else{
             setTentativas(6);
             setIniciado(false);
+            setTentadas([...tentadas,...resposta])
         }
     }
 
@@ -100,7 +104,7 @@ export default function App (){
                 Escolher Palavra
             </Iniciar>
 
-            <Palavra>
+            <Palavra iniciado={iniciado} tentativas={tentativas}>
                 {
                     arrayPalavra.map((letra, indice) => {
                     if(tentadas.includes(letra)){
@@ -163,8 +167,11 @@ const Iniciar = styled.div`
 
 const Palavra = styled.div`
     font-size: 40px;
-    color: black;
-    background-color:red;
+    color: ${(props) => 
+        (props.iniciado ? 'black' : (props.tentativas === 6 ? 'red' : 'green'))
+    };
+    background-color:gray;
+    border: solid 1px black;
 `
 
 
