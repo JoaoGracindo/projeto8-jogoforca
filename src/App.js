@@ -104,7 +104,7 @@ export default function App (){
                 Escolher Palavra
             </Iniciar>
 
-            <Palavra iniciado={iniciado} tentativas={tentativas}>
+            <Palavra data-identifier="word" iniciado={iniciado} tentativas={tentativas}>
                 {
                     arrayPalavra.map((letra, indice) => {
                     if(tentadas.includes(letra)){
@@ -115,11 +115,12 @@ export default function App (){
             })}
             </Palavra>
 
-            <img src={arrayImagens[tentativas]}/>
+            <img data-identifier="game-image" src={arrayImagens[tentativas]}/>
 
             <Teclado>
                 {alfabeto.map( (letra, index) =>
                     <div 
+                    data-identifier="letter"
                     key ={index}
                     className={tentadas.includes(alfabeto[index]) ? 'desabilitada' : ''}
                     onClick={() => verifica(index)} >
@@ -131,8 +132,8 @@ export default function App (){
 
             <Input>
                 <span>Já sei a palavra!</span>
-                <input onChange={(e) => setPalavraChutada(e.target.value)}/>
-                <div onClick={() => chutar(palavraChutada)}>
+                <input data-identifier="type-guess" onChange={(e) => setPalavraChutada(e.target.value)}/>
+                <div data-identifier="guess-button" onClick={() => chutar(palavraChutada)}>
                     Chutar
                 </div>
             </Input>
