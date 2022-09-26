@@ -19,18 +19,19 @@ export default function App (){
     const [arrayPalavra, setArrayPalavra] = useState([]);
     const arrayImagens = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
     const [iniciado, setIniciado] = useState(false);
-    const [tentadas, setTentadas] = useState([])
+    const [tentadas, setTentadas] = useState([]);
+    const [palavraChutada, setPalavraChutada] = useState('');
 
 
     function iniciarJogo(){
         if(!iniciado){
+            //setTentadas([])
             const numeroDePalavras = palavras.length + 1;
             const indiceEscolhida = Math.round(Math.random()* numeroDePalavras);
             const palavraEscolhida = palavras[indiceEscolhida];
-            console.log(palavraEscolhida);
+            console.log(palavraEscolhida)
 
             setArrayPalavra([...palavraEscolhida])
-            console.log(arrayPalavra)
 
             setIniciado(true);
         }
@@ -39,18 +40,49 @@ export default function App (){
     function verifica(index){
         if(iniciado){
             const letraEscolhida = alfabeto[index];
-            const acertou = arrayPalavra.includes(letraEscolhida);
-            const novoArr = [...tentadas, letraEscolhida]
-            setTentadas(novoArr)
-            console.log(acertou)
-            console.log(tentadas)
-            console.log(arrayPalavra)
 
-            if(!acertou){
-                setTentativas(tentativas + 1)
+            if(!tentadas.includes(letraEscolhida)){            
+                const acertou = arrayPalavra.includes(letraEscolhida);
+                const novoArr = [...tentadas, letraEscolhida]
+                setTentadas(novoArr);
+
+                if(acertou){
+                    let contador = 1;
+                    for(let i=0; i < arrayPalavra.length; i++){
+                        if(tentadas.includes(arrayPalavra[i])){
+                            contador++;
+                        }
+                    }
+                    console.log(contador)
+                    console.log(arrayPalavra.length)
+                    if(contador === arrayPalavra.length){
+                        setIniciado(false);
+                    }
+                }
+
+                if(!acertou){
+                    const numTentativas = tentativas + 1;
+                    setTentativas(numTentativas);
+                    if(numTentativas === 6){
+                        setIniciado(false)
+                    }
+                }
+
             }
+
+
         }
 
+    }
+
+    function chutar(chute){
+        const resposta = arrayPalavra.join('');
+        if(resposta.localeCompare(chute, 'pt', { sensitivity: 'base' }) === 0){
+            setTentadas([...tentadas,...resposta])
+            setIniciado(false)
+        }else{
+            setTentativas(tentativas + 1);
+        }
     }
 
 
@@ -79,6 +111,11 @@ export default function App (){
                     <div onClick={() => verifica(index)}>{letra}</div>
                 )}
             </Teclado>
+
+            <input onChange={(e) => setPalavraChutada(e.target.value)}/>
+            <div onClick={() => chutar(palavraChutada)}>
+                Chutar
+            </div>
         </>
     )
 }
