@@ -15,29 +15,62 @@ import alfabeto from './alfabeto';
 
 
 export default function App (){
-    const [tentativas, setTentaticas] = useState(0);
-    const arrayPalavra = [];
-    const arrayImagens = [forca0, forca1, forca2, forca3, forca4, forca5, forca6]
+    const [tentativas, setTentativas] = useState(0);
+    const [arrayPalavra, setArrayPalavra] = useState([]);
+    const arrayImagens = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
+    const [iniciado, setIniciado] = useState(false);
+    const [tentadas, setTentadas] = useState([])
 
-    function iniciaJogo(){
-        const numeroDePalavras = palavras.length + 1;
-        const palavraEscolhida = Math.round(Math.random()* numeroDePalavras);
-        
-        for(let i=0;i < palavraEscolhida.length; i++ ){
-            arrayPalavra.push(palavraEscolhida[i]);
+
+    function iniciarJogo(){
+        if(!iniciado){
+            const numeroDePalavras = palavras.length + 1;
+            const indiceEscolhida = Math.round(Math.random()* numeroDePalavras);
+            const palavraEscolhida = palavras[indiceEscolhida];
+            console.log(palavraEscolhida);
+
+            setArrayPalavra([...palavraEscolhida])
+            console.log(arrayPalavra)
+
+            setIniciado(true);
         }
-
     }
 
     function verifica(index){
-        const letraEscolhida = alfabeto[index];
-        const acertou = arrayPalavra.includes(letraEscolhida);
+        if(iniciado){
+            const letraEscolhida = alfabeto[index];
+            const acertou = arrayPalavra.includes(letraEscolhida);
+            const novoArr = [...tentadas, letraEscolhida]
+            setTentadas(novoArr)
+            console.log(acertou)
+            console.log(tentadas)
+            console.log(arrayPalavra)
+
+            if(!acertou){
+                setTentativas(tentativas + 1)
+            }
+        }
 
     }
 
 
     return (
         <>
+
+            <Iniciar onClick={()=> iniciarJogo()}>
+                Escolher Palavra
+            </Iniciar>
+
+            <Palavra>
+                {
+                    arrayPalavra.map((letra, indice) => {
+                    if(tentadas.includes(letra)){
+                        return <span key={indice}>{letra}</span>
+                    } else{
+                        return <span>_ </span>
+                    }
+            })}
+            </Palavra>
 
             <img src={arrayImagens[tentativas]}/>
 
@@ -73,6 +106,21 @@ const Teclado = styled.div`
 
 
     }
+`
+
+const Iniciar = styled.div`
+    width: 70px;
+    height: 30px;
+    color: white;
+    background-color: green;
+    cursor: pointer;
+
+`
+
+const Palavra = styled.div`
+    font-size: 40px;
+    color: black;
+    background-color:red;
 `
 
 
