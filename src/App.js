@@ -58,7 +58,7 @@ export default function App (){
                 if(acertou){
                     let contador = 1;
                     for(let i=0; i < arrayPalavra.length; i++){
-                        if(arrayPalavra[i].localeCompare(letraEscolhida, 'pt', { sensitivity: 'base' }) === 0){
+                        if(tentadas.includes(arrayPalavra[i])){
                             contador++;
                         }
                     }
