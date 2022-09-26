@@ -100,7 +100,7 @@ export default function App (){
     return (
         <>
 
-            <Iniciar onClick={()=> iniciarJogo()}>
+            <Iniciar data-identifier="choose-word" onClick={()=> iniciarJogo()}>
                 Escolher Palavra
             </Iniciar>
 
@@ -119,14 +119,19 @@ export default function App (){
 
             <Teclado>
                 {alfabeto.map( (letra, index) =>
-                    <div onClick={() => verifica(index)}>{letra}</div>
+                    <div onClick={() => verifica(index)} >{letra}</div>
                 )}
             </Teclado>
+            
 
-            <input onChange={(e) => setPalavraChutada(e.target.value)}/>
-            <div onClick={() => chutar(palavraChutada)}>
-                Chutar
-            </div>
+            <Input>
+                <span>Já sei a palavra!</span>
+                <input onChange={(e) => setPalavraChutada(e.target.value)}/>
+                <div onClick={() => chutar(palavraChutada)}>
+                    Chutar
+                </div>
+            </Input>
+
         </>
     )
 }
@@ -136,17 +141,21 @@ export default function App (){
 const Teclado = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content:space-between;
     align-items: center;
     height: 70px;
-    width: 450px;
+    width: 500px;
+    margin: 0 auto; 
+    
 
     
-    div{   
+    div{
+        border: solid 1px black;
+        border-radius: 5px;
+        margin-right:5px;
+        font-weight:600;   
         height: 30px;
         width: 30px;
         font-size:20px;
-        background-color: gray;
         color: black;
         display: flex;
         justify-content:center;
@@ -157,21 +166,49 @@ const Teclado = styled.div`
 `
 
 const Iniciar = styled.div`
-    width: 70px;
-    height: 30px;
+    width: 200px;
+    height: 60px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size: 22px;
+    font-weight:700;
+    border-radius: 10px;
     color: white;
     background-color: green;
     cursor: pointer;
+    position:absolute;
+    top: 70px;
+    right:200px;
 
 `
 
 const Palavra = styled.div`
-    font-size: 40px;
+    font-size: 50px;
+    position:absolute;
+    right:220px;
+    top:570px;
     color: ${(props) => 
         (props.iniciado ? 'black' : (props.tentativas === 6 ? 'red' : 'green'))
     };
-    background-color:gray;
-    border: solid 1px black;
+`
+
+const Input = styled.div`
+    margin: 20px auto;
+    width:300px;
+
+    div{
+        border: solid 1px black;
+        background-color:#E1ECF4;
+        color: black;
+        font-size:22px;
+        border-radius: 5px;
+        display:flex;
+        justify-content:center;
+        align-items: center;
+        margin-top: 5px;
+        cursor:pointer;
+    }
 `
 
 
