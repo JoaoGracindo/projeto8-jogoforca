@@ -119,7 +119,12 @@ export default function App (){
 
             <Teclado>
                 {alfabeto.map( (letra, index) =>
-                    <div onClick={() => verifica(index)} >{letra}</div>
+                    <div 
+                    key ={index}
+                    className={tentadas.includes(alfabeto[index]) ? 'desabilitada' : ''}
+                    onClick={() => verifica(index)} >
+                        {letra}
+                    </div>
                 )}
             </Teclado>
             
@@ -162,6 +167,10 @@ const Teclado = styled.div`
         align-items: center;
 
 
+    }
+
+    .desabilitada{
+        background-color:gray;
     }
 `
 
